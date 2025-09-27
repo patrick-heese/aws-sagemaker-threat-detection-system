@@ -1,0 +1,6 @@
+region              = "us-east-1"
+bucket_name         = "cybersecurity-ml-data1-<account_number>"
+pipeline_name       = "simple-cybersecurity-pipeline"
+lambda_name         = "trigger-cybersecurity-pipeline"
+sagemaker_role_name = "SageMakerCybersecurityRole"
+s3_new_data_prefix  = "new-data/"
