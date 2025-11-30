@@ -1,6 +1,5 @@
 # Helpers
 data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
 
 # -----------------------------
 # S3 Bucket
@@ -72,7 +71,7 @@ data "aws_iam_policy_document" "sm_s3" {
 }
 
 resource "aws_iam_policy" "sm_s3_policy" {
-  name   = "${var.project}-sagemaker-s3"
+  name   = "${var.project_name}-sagemaker-s3"
   policy = data.aws_iam_policy_document.sm_s3.json
 }
 
@@ -95,7 +94,7 @@ data "aws_iam_policy_document" "lambda_assume" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name               = "${var.project}-lambda-role"
+  name               = "${var.project_name}-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume.json
 }
 
@@ -111,13 +110,13 @@ data "aws_iam_policy_document" "lambda_sm" {
     effect  = "Allow"
     actions = ["sagemaker:StartPipelineExecution"]
     resources = [
-      "arn:aws:sagemaker:${var.region}:${data.aws_caller_identity.current.account_id}:pipeline/${var.pipeline_name}"
+      "arn:aws:sagemaker:${var.aws_region}:${data.aws_caller_identity.current.account_id}:pipeline/${var.pipeline_name}"
     ]
   }
 }
 
 resource "aws_iam_policy" "lambda_sm_policy" {
-  name   = "${var.project}-lambda-start-pipeline"
+  name   = "${var.project_name}-lambda-start-pipeline"
   policy = data.aws_iam_policy_document.lambda_sm.json
 }
 
